@@ -197,9 +197,9 @@ private
 
   def bottom_orderable_position
     @bottom_orderable_position = begin
-      positions_list = orderable_scoped.distinct(orderable_column)
-      return orderable_base if positions_list.empty?
-      max = positions_list.map(&:to_i).max.to_i
+      last = orderable_scoped.asc(orderable_column).last
+      return orderable_base if last.nil?
+      max = last[orderable_column].to_i
       in_list? ? max : max.next
     end
   end
